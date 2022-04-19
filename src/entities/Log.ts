@@ -26,6 +26,6 @@ export class LogEntity {
     @Column({ nullable: false })
     deleted: boolean;
 
-    @Column({ nullable: false})
+    @Column({ nullable: false })
     attachment: boolean;
 }

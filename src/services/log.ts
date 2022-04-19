@@ -57,7 +57,8 @@ export class LogService {
             user_id: message.author.id,
             content: message.content,
             created: message.createdAt,
-            attachment: isAttachment
+            attachment: isAttachment,
+            deleted: false
         });
     }
 
