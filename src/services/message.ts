@@ -70,9 +70,6 @@ export class MessageService {
     }
 
     async updateByMessage(message: Message, body: IWriteMessage) {
-        const newContent = await this.MessageContentService.writeByMessage(message);
-        body.last_edited = message.editedTimestamp;
-        body.last_content = newContent._id;
         return await this.MessageRepository.update(
             {
                 id: message.id,
