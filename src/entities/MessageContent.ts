@@ -14,7 +14,7 @@ export class MessageContentEntity {
     @Column({ nullable: false })
     channel_id: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, length: 4000 })
     content: string;
 
     @Column({ nullable: false, type:'bigint' })
