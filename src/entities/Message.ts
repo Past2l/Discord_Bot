@@ -18,13 +18,16 @@ export class MessageEntity {
     user_id: string;
 
     @Column({ nullable: false })
-    last_content: string;
+    last_content: number;
 
     @Column({ nullable: false })
     created: number;
 
     @Column({ default: null })
     deleted: number;
+
+    @Column({ default: null })
+    last_edited: number;
 
     @Column({ nullable: false })
     attachment: boolean;

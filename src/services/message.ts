@@ -3,11 +3,13 @@ import { DeleteResult, EntityRepository, getCustomRepository, getRepository } fr
 import { MessageEntity } from "../entities/Message";
 import { IWriteMessage } from "../types/message";
 import { AttachmentService } from "./attachment";
+import { MessageContentService } from "./messageContent";
 
 @EntityRepository(MessageEntity)
 export class MessageService {
     readonly MessageRepository = getRepository(MessageEntity);
     readonly AttachmentService = getCustomRepository(AttachmentService);
+    readonly MessageContentService = getCustomRepository(MessageContentService);
 
     async get(id: number): Promise<MessageEntity | undefined> {
         const log = await this.MessageRepository.findOneBy({_id:id});
@@ -43,6 +45,11 @@ export class MessageService {
         return log;
     }
 
+    async getByMessageID(id: string): Promise<MessageEntity | undefined> {
+        const log = await this.MessageRepository.findOneBy({id:id});
+        return log;
+    }
+
     async writeByMessage(message: Message): Promise<MessageEntity> {
         const attachment = message.attachments.first();
         let isAttachment: boolean;
@@ -50,26 +57,34 @@ export class MessageService {
             isAttachment = true;
             message.attachments.forEach(async v => await this.AttachmentService.writeByAttachment(v,message.id));
         } else isAttachment = false;
+        const messageContent = await this.MessageContentService.writeByMessage(message);
         return await this.write({
             id: message.id,
             guild_id: message.guildId,
             channel_id: message.channelId,
             user_id: message.author.id,
-            last_content: message.content,
+            last_content: messageContent._id,
             created: message.createdTimestamp,
             attachment: isAttachment
         });
     }
 
-    async updateByMessageID(id: string, body: IWriteMessage) {
+    async updateByMessage(message: Message, body: IWriteMessage) {
+        body.last_edited = message.editedTimestamp;
         return await this.MessageRepository.update(
             {
-                id: id,
+                id: message.id,
             },
             {
                 ...body,
             }
         );
+    }
+
+    async deleteByMessage(message: Message): Promise<DeleteResult> {
+        return await this.MessageRepository.delete({
+            id: message.id,
+        });
     }
 
     async deleteByMessageID(id: string): Promise<DeleteResult> {

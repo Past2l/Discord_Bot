@@ -1,3 +1,4 @@
+import { Message } from "discord.js";
 import { DeleteResult, EntityRepository, getRepository } from "typeorm";
 import { MessageContentEntity } from "../entities/MessageContent";
 import { IWriteMessageContent } from "../types/messageContent";
@@ -32,6 +33,16 @@ export class MessageContentService {
     async delete(id: number): Promise<DeleteResult> {
         return await this.MessageContentRepository.delete({
             _id: id,
+        });
+    }
+
+    async writeByMessage(message: Message): Promise<MessageContentEntity> {
+        return this.write({
+            id: message.id,
+            guild_id: message.guildId,
+            channel_id: message.channelId,
+            content: message.content,
+            date: message.editedTimestamp | message.createdTimestamp
         });
     }
 }
