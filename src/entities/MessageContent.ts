@@ -17,6 +17,6 @@ export class MessageContentEntity {
     @Column({ nullable: false })
     content: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, type:'bigint' })
     date: number;
 }

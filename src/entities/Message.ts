@@ -20,13 +20,13 @@ export class MessageEntity {
     @Column({ nullable: false })
     last_content: number;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, type:'bigint' })
     created: number;
 
-    @Column({ default: null })
+    @Column({ default: null, type:'bigint' })
     deleted: number;
 
-    @Column({ default: null })
+    @Column({ default: null, type:'bigint' })
     last_edited: number;
 
     @Column({ nullable: false })
