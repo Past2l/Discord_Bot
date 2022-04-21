@@ -1,10 +1,10 @@
-export interface IWriteLog {
+export interface IWriteMessage {
     id: string;
     guild_id: string;
     channel_id: string;
     user_id: string;
-    content: string;
-    deleted: boolean;
-    created: Date;
+    last_content: string;
+    deleted?: number;
+    created: number;
     attachment: boolean;
 }

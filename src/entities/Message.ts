@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('log')
-export class LogEntity {
+@Entity('Message')
+export class MessageEntity {
     @PrimaryGeneratedColumn()
     _id: number;
 
@@ -18,13 +18,13 @@ export class LogEntity {
     user_id: string;
 
     @Column({ nullable: false })
-    content: string;
+    last_content: string;
 
     @Column({ nullable: false })
-    created: Date;
+    created: number;
 
-    @Column({ nullable: false })
-    deleted: boolean;
+    @Column({ default: null })
+    deleted: number;
 
     @Column({ nullable: false })
     attachment: boolean;

@@ -1,28 +1,28 @@
 import { Message } from "discord.js";
 import { DeleteResult, EntityRepository, getCustomRepository, getRepository } from "typeorm";
-import { LogEntity } from "../entities/Log";
-import { IWriteLog } from "../types/log";
+import { MessageEntity } from "../entities/Message";
+import { IWriteMessage } from "../types/message";
 import { AttachmentService } from "./attachment";
 
-@EntityRepository(LogEntity)
-export class LogService {
-    readonly LogRepository = getRepository(LogEntity);
+@EntityRepository(MessageEntity)
+export class MessageService {
+    readonly MessageRepository = getRepository(MessageEntity);
     readonly AttachmentService = getCustomRepository(AttachmentService);
 
-    async get(id: number): Promise<LogEntity | undefined> {
-        const log = await this.LogRepository.findOneBy({_id:id});
+    async get(id: number): Promise<MessageEntity | undefined> {
+        const log = await this.MessageRepository.findOneBy({_id:id});
         return log;
     }
 
-    async write(body: IWriteLog): Promise<LogEntity> {
-        const newLog = this.LogRepository.create({
+    async write(body: IWriteMessage): Promise<MessageEntity> {
+        const newLog = this.MessageRepository.create({
             ...body,
         });
-        return await this.LogRepository.save(newLog);
+        return await this.MessageRepository.save(newLog);
     }
 
-    async update(id: number, body: IWriteLog) {
-        return await this.LogRepository.update(
+    async update(id: number, body: IWriteMessage) {
+        return await this.MessageRepository.update(
             {
                 _id: id,
             },
@@ -33,17 +33,17 @@ export class LogService {
     }
 
     async delete(id: number): Promise<DeleteResult> {
-        return await this.LogRepository.delete({
+        return await this.MessageRepository.delete({
             _id: id,
         });
     }
 
-    async getByMessage(message: Message): Promise<LogEntity | undefined> {
-        const log = await this.LogRepository.findOneBy({id:message.id});
+    async getByMessage(message: Message): Promise<MessageEntity | undefined> {
+        const log = await this.MessageRepository.findOneBy({id:message.id});
         return log;
     }
 
-    async writeByMessage(message: Message): Promise<LogEntity> {
+    async writeByMessage(message: Message): Promise<MessageEntity> {
         const attachment = message.attachments.first();
         let isAttachment: boolean;
         if(attachment) {
@@ -55,15 +55,14 @@ export class LogService {
             guild_id: message.guildId,
             channel_id: message.channelId,
             user_id: message.author.id,
-            content: message.content,
-            created: message.createdAt,
-            attachment: isAttachment,
-            deleted: false
+            last_content: message.content,
+            created: message.createdTimestamp,
+            attachment: isAttachment
         });
     }
 
-    async updateByMessageID(id: string, body: IWriteLog) {
-        return await this.LogRepository.update(
+    async updateByMessageID(id: string, body: IWriteMessage) {
+        return await this.MessageRepository.update(
             {
                 id: id,
             },
@@ -74,7 +73,7 @@ export class LogService {
     }
 
     async deleteByMessageID(id: string): Promise<DeleteResult> {
-        return await this.LogRepository.delete({
+        return await this.MessageRepository.delete({
             id: id,
         });
     }
