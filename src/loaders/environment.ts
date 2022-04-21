@@ -11,7 +11,9 @@ export const ENVIRONMENT_NAMES = [
     'BOT_NAME',
     'BOT_ID',
     'BOT_TOKEN',
-    'BOT_OWNER'
+    'BOT_OWNER',
+    'BOT_PREFIX',
+    'BOT_ACTIVITY'
 ];
 
 export default async () => {

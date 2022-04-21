@@ -5,7 +5,7 @@ import { MessageService } from "../services/message";
 import { MessageContentService } from "../services/messageContent";
 
 const messageService = getCustomRepository(MessageService);
-const messageContentService = getCustomRepository(MessageContentService)
+const messageContentService = getCustomRepository(MessageContentService);
 
 export default new Event('messageUpdate',async (oldMessage, newMessage) => {
     const message = newMessage as Message;
