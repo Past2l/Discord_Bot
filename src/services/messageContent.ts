@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import { DeleteResult, EntityRepository, getRepository } from "typeorm";
 import { MessageContentEntity } from "../entities/MessageContent";
 import { IWriteMessageContent } from "../types/messageContent";
@@ -37,8 +37,11 @@ export class MessageContentService {
     }
 
     async writeByMessage(message: Message): Promise<MessageContentEntity> {
+        const channel = message.channel as TextChannel;
         return this.write({
             id: message.id,
+            guild_name: message.guild.name,
+            channel_name: channel.name,
             guild_id: message.guildId,
             channel_id: message.channelId,
             content: message.content,

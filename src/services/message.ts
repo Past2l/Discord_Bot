@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import { DeleteResult, EntityRepository, getCustomRepository, getRepository } from "typeorm";
 import { MessageEntity } from "../entities/Message";
 import { IWriteMessage } from "../types/message";
@@ -55,15 +55,19 @@ export class MessageService {
         let isAttachment: boolean;
         if(attachment) {
             isAttachment = true;
-            message.attachments.forEach(async v => await this.AttachmentService.writeByAttachment(v,message.id));
+            message.attachments.forEach(async v => await this.AttachmentService.writeByAttachment(v,message));
         } else isAttachment = false;
         const messageContent = await this.MessageContentService.writeByMessage(message);
+        const channel = message.channel as TextChannel;
         return await this.write({
             id: message.id,
+            guild_name: message.guild.name,
+            channel_name: channel.name,
             guild_id: message.guildId,
             channel_id: message.channelId,
             user_id: message.author.id,
-            last_content: messageContent._id,
+            last_content_id: messageContent._id,
+            last_content: messageContent.content,
             created: message.createdTimestamp,
             attachment: isAttachment
         });

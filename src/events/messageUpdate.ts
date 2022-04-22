@@ -14,7 +14,8 @@ export default new Event('messageUpdate',async (oldMessage, newMessage) => {
             const newContent = await messageContentService.writeByMessage(message);
             const body = await messageService.getByMessage(message);
             body.last_edited = message.editedTimestamp;
-            body.last_content = newContent._id;
+            body.last_content_id = newContent._id;
+            body.last_content = newContent.content;
             messageService.updateByMessage(message,body);
         }
     }

@@ -15,18 +15,27 @@ export class MessageEntity {
     channel_id: string;
 
     @Column({ nullable: false })
-    user_id: string;
+    guild_name: string;
 
     @Column({ nullable: false })
-    last_content: number;
+    channel_name: string;
 
-    @Column({ nullable: false, type:'bigint' })
+    @Column({ nullable: false })
+    user_id: string;
+
+    @Column({ nullable: false, type: 'bigint' })
     created: number;
 
-    @Column({ default: null, type:'bigint' })
+    @Column({ default: null, type: 'bigint' })
     deleted: number;
 
-    @Column({ default: null, type:'bigint' })
+    @Column({ nullable: false })
+    last_content_id: number;
+
+    @Column({ nullable: false })
+    last_content: string;
+
+    @Column({ default: null, type: 'bigint' })
     last_edited: number;
 
     @Column({ nullable: false })

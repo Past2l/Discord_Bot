@@ -1,4 +1,4 @@
-import { MessageAttachment } from "discord.js";
+import { Message, MessageAttachment, TextChannel } from "discord.js";
 import { DeleteResult, EntityRepository, getRepository } from "typeorm";
 import { AttachmentEntity } from "../entities/Attachment";
 import { IWriteAttachment } from "../types/attachment";
@@ -36,10 +36,15 @@ export class AttachmentService {
         });
     }
 
-    async writeByAttachment(attachment: MessageAttachment,message_id: string): Promise<AttachmentEntity> {
+    async writeByAttachment(attachment: MessageAttachment,message: Message): Promise<AttachmentEntity> {
+        const channel = message.channel as TextChannel;
         return this.write({
             id: attachment.id,
-            message_id: message_id,
+            guild_name: message.guild.name,
+            channel_name: channel.name,
+            guild_id: message.guildId,
+            channel_id: message.channelId,
+            message_id: message.id,
             name: attachment.name,
             description: attachment.description,
             type: attachment.contentType,

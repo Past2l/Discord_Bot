@@ -9,6 +9,18 @@ export class AttachmentEntity {
     id: string;
 
     @Column({ nullable: false })
+    guild_id: string;
+
+    @Column({ nullable: false })
+    channel_id: string;
+
+    @Column({ nullable: false })
+    guild_name: string;
+
+    @Column({ nullable: false })
+    channel_name: string;
+
+    @Column({ nullable: false })
     message_id: string;
 
     @Column({ nullable: false })

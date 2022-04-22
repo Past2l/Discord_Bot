@@ -14,6 +14,12 @@ export class MessageContentEntity {
     @Column({ nullable: false })
     channel_id: string;
 
+    @Column({ nullable: false })
+    guild_name: string;
+
+    @Column({ nullable: false })
+    channel_name: string;
+
     @Column({ nullable: false, length: 4000 })
     content: string;
 
