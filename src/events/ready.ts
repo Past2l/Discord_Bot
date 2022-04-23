@@ -13,6 +13,7 @@ const formatEval = function (str: string): string  {
 }
 
 export default new Event("ready",() => {
+    console.log(`Discord Log System \x1b[33m${process.env.BOT_LOG==='true'?'Enabled':'Disabled'}\x1b[37m!`);
     console.log(`Logged in as \x1b[33m${client.user.tag}\x1b[37m!`);
     let count=0,activity=JSON.parse(process.env.BOT_ACTIVITY);
     if(activity.length>0) setInterval(()=>{
