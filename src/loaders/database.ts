@@ -2,6 +2,8 @@ import { createConnection } from 'typeorm';
 import { MessageEntity } from '../entities/Message';
 import { MessageContentEntity } from '../entities/MessageContent';
 import { AttachmentEntity } from '../entities/Attachment';
+import { UserEntity } from '../entities/User';
+import { ChannelEntity } from '../entities/Channel';
 
 export default async () => {
     await createConnection({
@@ -17,6 +19,8 @@ export default async () => {
             MessageEntity,
             MessageContentEntity,
             AttachmentEntity,
+            UserEntity,
+            ChannelEntity,
         ],
         migrations: [],
         subscribers: [],

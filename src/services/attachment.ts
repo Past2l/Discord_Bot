@@ -7,8 +7,8 @@ import { IWriteAttachment } from "../types/attachment";
 export class AttachmentService {
     readonly AttachmentRepository = getRepository(AttachmentEntity);
 
-    async get(id: number): Promise<AttachmentEntity | undefined> {
-        const attachment = await this.AttachmentRepository.findOneBy({_id:id});
+    async get(id: string): Promise<AttachmentEntity | undefined> {
+        const attachment = await this.AttachmentRepository.findOneBy({id:id});
         return attachment;
     }
 
@@ -19,10 +19,10 @@ export class AttachmentService {
         return await this.AttachmentRepository.save(newAttachment);
     }
 
-    async update(id: number, body: IWriteAttachment) {
+    async update(id: string, body: IWriteAttachment) {
         return await this.AttachmentRepository.update(
             {
-                _id: id,
+                id: id,
             },
             {
                 ...body,
@@ -30,9 +30,9 @@ export class AttachmentService {
         );
     }
 
-    async delete(id: number): Promise<DeleteResult> {
+    async delete(id: string): Promise<DeleteResult> {
         return await this.AttachmentRepository.delete({
-            _id: id,
+            id: id,
         });
     }
 

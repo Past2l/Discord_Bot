@@ -11,8 +11,8 @@ export class MessageService {
     readonly AttachmentService = getCustomRepository(AttachmentService);
     readonly MessageContentService = getCustomRepository(MessageContentService);
 
-    async get(id: number): Promise<MessageEntity | undefined> {
-        const log = await this.MessageRepository.findOneBy({_id:id});
+    async get(id: string): Promise<MessageEntity | undefined> {
+        const log = await this.MessageRepository.findOneBy({id:id});
         return log;
     }
 
@@ -23,10 +23,10 @@ export class MessageService {
         return await this.MessageRepository.save(newLog);
     }
 
-    async update(id: number, body: IWriteMessage) {
+    async update(id: string, body: IWriteMessage) {
         return await this.MessageRepository.update(
             {
-                _id: id,
+                id: id,
             },
             {
                 ...body,
@@ -34,9 +34,9 @@ export class MessageService {
         );
     }
 
-    async delete(id: number): Promise<DeleteResult> {
+    async delete(id: string): Promise<DeleteResult> {
         return await this.MessageRepository.delete({
-            _id: id,
+            id: id,
         });
     }
 
@@ -87,12 +87,6 @@ export class MessageService {
     async deleteByMessage(message: Message): Promise<DeleteResult> {
         return await this.MessageRepository.delete({
             id: message.id,
-        });
-    }
-
-    async deleteByMessageID(id: string): Promise<DeleteResult> {
-        return await this.MessageRepository.delete({
-            id: id,
         });
     }
 }

@@ -8,7 +8,7 @@ export class MessageContentService {
     readonly MessageContentRepository = getRepository(MessageContentEntity);
 
     async get(id: number): Promise<MessageContentEntity | undefined> {
-        const log = await this.MessageContentRepository.findOneBy({_id:id});
+        const log = await this.MessageContentRepository.findOneBy({id:id});
         return log;
     }
 
@@ -22,7 +22,7 @@ export class MessageContentService {
     async update(id: number, body: IWriteMessageContent) {
         return await this.MessageContentRepository.update(
             {
-                _id: id,
+                id: id,
             },
             {
                 ...body,
@@ -32,14 +32,14 @@ export class MessageContentService {
 
     async delete(id: number): Promise<DeleteResult> {
         return await this.MessageContentRepository.delete({
-            _id: id,
+            id: id,
         });
     }
 
     async writeByMessage(message: Message): Promise<MessageContentEntity> {
         const channel = message.channel as TextChannel;
         return this.write({
-            id: message.id,
+            message_id: message.id,
             guild_name: message.guild.name,
             channel_name: channel.name,
             guild_id: message.guildId,

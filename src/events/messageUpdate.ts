@@ -9,14 +9,14 @@ const messageContentService = getCustomRepository(MessageContentService);
 
 export default new Event('messageUpdate',async (oldMessage, newMessage) => {
     const message = newMessage as Message;
-    if(!message.author.bot) {
+    if(!message.author.bot && !message.author.system) {
         if(message.channel as TextChannel && message) {
             const newContent = await messageContentService.writeByMessage(message);
             const body = await messageService.getByMessage(message);
             body.last_edited = message.editedTimestamp;
-            body.last_content_id = newContent._id;
+            body.last_content_id = newContent.id;
             body.last_content = newContent.content;
-            messageService.updateByMessage(message,body);
+            await messageService.updateByMessage(message, body);
         }
     }
 });

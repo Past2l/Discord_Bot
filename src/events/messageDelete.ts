@@ -7,11 +7,11 @@ const messageService = getCustomRepository(MessageService);
 
 export default new Event('messageDelete', async message =>{
     message = message as Message;
-    if(!message.author.bot) {
+    if(!message.author.bot && !message.author.system) {
         if(message.channel as TextChannel && message) {
             const body = await messageService.getByMessage(message);
             body.deleted = +new Date();
-            messageService.updateByMessage(message,body);
+            await messageService.updateByMessage(message, body);
         }
     }
 })

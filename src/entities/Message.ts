@@ -2,9 +2,6 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('Message')
 export class MessageEntity {
-    @PrimaryGeneratedColumn()
-    _id: number;
-
     @PrimaryColumn({ nullable: false })
     id: string;
 
