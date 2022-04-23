@@ -3,5 +3,5 @@ export interface IWriteGuild {
     name: string;
     owner_id: string;
     icon: string;
-    member: string;
+    member: number;
 }

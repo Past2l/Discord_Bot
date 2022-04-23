@@ -50,14 +50,14 @@ export class MessageService {
         return log;
     }
 
-    async writeByMessage(message: Message): Promise<MessageEntity> {
+    async writeByMessage(message: Message, content_id: number): Promise<MessageEntity> {
         const attachment = message.attachments.first();
         let isAttachment: boolean;
         if(attachment) {
             isAttachment = true;
             message.attachments.forEach(async v => await this.AttachmentService.writeByAttachment(v,message));
         } else isAttachment = false;
-        const messageContent = await this.MessageContentService.writeByMessage(message);
+        const messageContent = await this.MessageContentService.get(content_id);
         const channel = message.channel as TextChannel;
         return await this.write({
             id: message.id,
@@ -66,8 +66,9 @@ export class MessageService {
             guild_id: message.guildId,
             channel_id: message.channelId,
             user_id: message.author.id,
-            last_content_id: messageContent._id,
-            last_content: messageContent.content,
+            last_content_id: messageContent.id,
+            last_content_date: message.editedTimestamp | message.createdTimestamp,
+            last_content: messageContent.content ? messageContent.content : null,
             created: message.createdTimestamp,
             attachment: isAttachment
         });

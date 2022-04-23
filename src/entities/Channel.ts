@@ -16,6 +16,9 @@ export class ChannelEntity {
 
     @Column({ default: null })
     last_content_id: number;
+
+    @Column({ default: null, type: 'bigint' })
+    last_content_date: number;
     
     @Column({ default: null })
     last_content: string;

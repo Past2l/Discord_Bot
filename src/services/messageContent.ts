@@ -44,7 +44,7 @@ export class MessageContentService {
             channel_name: channel.name,
             guild_id: message.guildId,
             channel_id: message.channelId,
-            content: message.content,
+            content: message.content.length>0 ? message.content : null,
             date: message.editedTimestamp | message.createdTimestamp
         });
     }

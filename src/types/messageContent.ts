@@ -4,6 +4,6 @@ export interface IWriteMessageContent {
     channel_id: string;
     guild_name: string;
     channel_name: string;
-    content: string;
+    content?: string;
     date: number;
 }

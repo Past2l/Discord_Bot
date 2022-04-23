@@ -4,6 +4,7 @@ import { MessageContentEntity } from '../entities/MessageContent';
 import { AttachmentEntity } from '../entities/Attachment';
 import { UserEntity } from '../entities/User';
 import { ChannelEntity } from '../entities/Channel';
+import { GuildEntity } from '../entities/Guild';
 
 export default async () => {
     await createConnection({
@@ -21,6 +22,7 @@ export default async () => {
             AttachmentEntity,
             UserEntity,
             ChannelEntity,
+            GuildEntity,
         ],
         migrations: [],
         subscribers: [],

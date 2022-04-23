@@ -15,5 +15,5 @@ export class GuildEntity {
     icon: string;
 
     @Column({ nullable: false })
-    membet: number;
+    member: number;
 }

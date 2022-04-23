@@ -29,11 +29,11 @@ export class MessageEntity {
     @Column({ nullable: false })
     last_content_id: number;
 
-    @Column({ nullable: false })
-    last_content: string;
+    @Column({ nullable: false, type: 'bigint' })
+    last_content_date: number;
 
-    @Column({ default: null, type: 'bigint' })
-    last_edited: number;
+    @Column({ default: null, length: 4000 })
+    last_content: string;
 
     @Column({ nullable: false })
     attachment: boolean;
