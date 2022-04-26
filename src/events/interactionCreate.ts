@@ -17,7 +17,7 @@ export default new Event("interactionCreate", async (interaction) => {
             interaction: interaction as ExtendedInteraction
         });
     } else if(interaction.isButton()) {
-        // let id = interaction.customId.split('_');
+        let id = interaction.customId.split('_');
         // TODO
     } else if(interaction.isContextMenu()) {
         // TODO
