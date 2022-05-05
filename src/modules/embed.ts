@@ -2,7 +2,7 @@ import { ColorResolvable, EmbedFooterData, MessageEmbed } from "discord.js";
 
 interface Embed {
     title: string,
-    color: ColorResolvable,
+    color: string,
     url?: string,
     image?: string,
     thumbnail?: string,
@@ -11,7 +11,7 @@ interface Embed {
 }
 
 interface Default extends Embed {
-    desc: string
+    desc?: string
 }
 
 interface Field extends Embed {
@@ -24,12 +24,12 @@ interface Field extends Embed {
 
 export function Default({ title, desc, color, url, image, thumbnail, footer, timestamp }: Default): MessageEmbed {
     let embed = new MessageEmbed()
-        .setColor(color)
+        .setColor(color as ColorResolvable)
         .setTitle(title)
-        .setDescription(desc)
         .setURL(url)
         .setImage(image)
         .setThumbnail(thumbnail);
+    if(desc) embed.setDescription(desc)
     if(footer) embed.setFooter(footer)
     if(timestamp) embed.setTimestamp();
     return embed;
@@ -37,7 +37,7 @@ export function Default({ title, desc, color, url, image, thumbnail, footer, tim
 
 export function Field({ title, field, color, url, image, thumbnail, footer, timestamp }: Field): MessageEmbed {
     let embed = new MessageEmbed()
-        .setColor(color)
+        .setColor(color as ColorResolvable)
         .setTitle(title)
         .setURL(url)
         .setImage(image)
@@ -48,11 +48,16 @@ export function Field({ title, field, color, url, image, thumbnail, footer, time
     return embed;
 }
 
-export function Error(content: string): MessageEmbed {
-    return Default({
-        color:'#ff0000',
-        title:'오류가 발생하였습니다.',
-        desc:`\`\`\`${content}\`\`\``,
-        timestamp:true
-    });
+export function Error(content: string) {
+    return {
+        embeds : [
+            Default({
+                color:'#ff0000',
+                title:'오류가 발생하였습니다.',
+                desc:`\`\`\`${content}\`\`\``,
+                timestamp:true
+            })
+        ],
+        ephemeral: true
+    }
 }
