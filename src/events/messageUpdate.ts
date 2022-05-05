@@ -15,10 +15,10 @@ export default new Event('messageUpdate',async (oldMessage, newMessage) => {
         const userService = getCustomRepository(UserService);
         const guildService = getCustomRepository(GuildService);
         const message = newMessage as Message;
-        if(await userService.get(message.author.id) == null) await userService.writeByUser(message.author);
-        if(await guildService.get(message.guildId) == null) await guildService.writeByGuild(message.guild);
         if(!message.author.bot && !message.author.system) {
             if(message.channel instanceof TextChannel && message) {
+                if(await userService.get(message.author.id) == null) await userService.writeByUser(message.author);
+                if(await guildService.get(message.guildId) == null) await guildService.writeByGuild(message.guild);
                 if(await channelService.get(message.channelId) == null) await channelService.writeByChannel(message.channel);
                 const newContent = await messageContentService.writeByMessage(message);
                 const body = await messageService.getByMessage(message);
