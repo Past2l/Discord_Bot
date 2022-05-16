@@ -55,8 +55,8 @@ export class ChannelService {
             name: channel.name,
             nsfw: channel.nsfw,
             last_content_id: content_id,
-            last_content_date: messageContent!.date,
-            last_content: messageContent!.content
+            last_content_date: messageContent?.date,
+            last_content: messageContent?.content
         });
     }
 }

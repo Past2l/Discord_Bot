@@ -24,7 +24,7 @@ export default new Event('messageUpdate',async (oldMessage, newMessage) => {
                 const body = await messageService.getByMessage(message);
                 if(body) {
                     body.last_content_id = newContent.id;
-                    body.last_content_date = message.editedTimestamp! | message.createdTimestamp;
+                    body.last_content_date = message.editedTimestamp || message.createdTimestamp;
                     body.last_content = newContent.content;
                     await messageService.updateByMessage(message, body);
                     await channelService.updateByChannel(message.channel, newContent.id);

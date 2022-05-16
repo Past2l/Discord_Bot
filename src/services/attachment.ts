@@ -46,12 +46,12 @@ export class AttachmentService {
             channel_id: message.channelId,
             message_id: message.id,
             name: attachment.name!,
-            description: attachment.description!,
-            type: attachment.contentType!,
+            description: attachment.description || undefined,
+            type: attachment.contentType || undefined,
             size: attachment.size,
             url: attachment.url,
-            height: attachment.height!,
-            width: attachment.width!,
+            height: attachment.height || undefined,
+            width: attachment.width || undefined,
             local_saved: false
         });
     }

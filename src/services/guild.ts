@@ -42,7 +42,7 @@ export class GuildService {
             id: guild.id,
             name: guild.name,
             owner_id: guild.ownerId,
-            icon: guild.iconURL() ? guild.iconURL()! : undefined,
+            icon: guild.iconURL() || undefined,
             member: guild.members.cache.filter(user => !user.user.bot).size
         });
     }
@@ -52,7 +52,7 @@ export class GuildService {
             id: guild.id,
             name: guild.name,
             owner_id: guild.ownerId,
-            icon: guild.iconURL() ? guild.iconURL()! : undefined,
+            icon: guild.iconURL() || undefined,
             member: guild.members.cache.filter(user => !user.user.bot).size
         });
     }

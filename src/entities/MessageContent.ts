@@ -20,7 +20,7 @@ export class MessageContentEntity {
     @Column({ nullable: false })
     channel_name: string;
 
-    @Column({ default: undefined, length: 4000 })
+    @Column({ default: null, length: 4000 })
     content: string;
 
     @Column({ nullable: false, type:'bigint' })

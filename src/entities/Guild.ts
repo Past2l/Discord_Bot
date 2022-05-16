@@ -11,7 +11,7 @@ export class GuildEntity {
     @Column({ nullable: false })
     owner_id: string;
 
-    @Column({ default: undefined })
+    @Column({ default: null })
     icon: string;
 
     @Column({ nullable: false })

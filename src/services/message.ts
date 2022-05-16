@@ -66,7 +66,7 @@ export class MessageService {
             guild_id: message.guildId!,
             channel_id: message.channelId,
             user_id: message.author.id,
-            last_content_id: messageContent!.id,
+            last_content_id: messageContent?.id,
             last_content_date: message.editedTimestamp || message.createdTimestamp,
             last_content: messageContent?.content,
             created: message.createdTimestamp,

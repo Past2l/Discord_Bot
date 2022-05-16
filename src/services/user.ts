@@ -41,7 +41,7 @@ export class UserService {
             id: user.id,
             name: user.username,
             tag: user.tag.split('#')[1],
-            avatar: user.avatarURL() ? user.avatarURL()! : undefined
+            avatar: user.avatarURL() || undefined
         });
     }
 
@@ -50,7 +50,7 @@ export class UserService {
             id: user.id,
             name: user.username,
             tag: user.tag.split('#')[1],
-            avatar: user.avatarURL() ? user.avatarURL()! : undefined
+            avatar: user.avatarURL() || undefined
         });
     }
 }
