@@ -10,7 +10,8 @@
         "outDir": "./dist",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "strictPropertyInitialization": false
+        // "strictPropertyInitialization": false
+        "strictNullChecks": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "**/*.spec.ts"]

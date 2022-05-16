@@ -8,7 +8,7 @@ import { IWriteGuild } from "../types/guild";
 export class GuildService {
     readonly GuildRepository = getRepository(GuildEntity);
 
-    async get(id: string): Promise<GuildEntity | undefined> {
+    async get(id: string): Promise<GuildEntity | null> {
         const guild = this.GuildRepository.findOneBy({id:id});
         return guild;
     }
@@ -42,7 +42,7 @@ export class GuildService {
             id: guild.id,
             name: guild.name,
             owner_id: guild.ownerId,
-            icon: guild.iconURL(),
+            icon: guild.iconURL() ? guild.iconURL()! : undefined,
             member: guild.members.cache.filter(user => !user.user.bot).size
         });
     }
@@ -52,7 +52,7 @@ export class GuildService {
             id: guild.id,
             name: guild.name,
             owner_id: guild.ownerId,
-            icon: guild.iconURL(),
+            icon: guild.iconURL() ? guild.iconURL()! : undefined,
             member: guild.members.cache.filter(user => !user.user.bot).size
         });
     }

@@ -23,7 +23,7 @@ export class MessageEntity {
     @Column({ nullable: false, type: 'bigint' })
     created: number;
 
-    @Column({ default: null, type: 'bigint' })
+    @Column({ default: undefined, type: 'bigint' })
     deleted: number;
 
     @Column({ nullable: false })
@@ -32,7 +32,7 @@ export class MessageEntity {
     @Column({ nullable: false, type: 'bigint' })
     last_content_date: number;
 
-    @Column({ default: null, length: 4000 })
+    @Column({ default: undefined, length: 4000 })
     last_content: string;
 
     @Column({ nullable: false })

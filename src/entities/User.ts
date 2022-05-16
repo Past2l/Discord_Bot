@@ -11,6 +11,6 @@ export class UserEntity {
     @Column({ nullable: false })
     tag: string;
 
-    @Column({ nullable: false })
+    @Column({ default: undefined })
     avatar: string;
 }

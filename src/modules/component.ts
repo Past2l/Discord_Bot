@@ -17,9 +17,9 @@ export function Button(option: Array<Button>): MessageActionRow {
             .setLabel(option[i].title)
             .setStyle(option[i].style);
         if(option[i].disabled) btn.setDisabled(option[i].disabled);
-        if(option[i].emoji) btn.setEmoji(option[i].emoji);
-        if(option[i].url) btn.setURL(option[i].url);
-        else if(option[i].id) btn.setCustomId(option[i].id);
+        if(option[i].emoji) btn.setEmoji(option[i].emoji!);
+        if(option[i].url) btn.setURL(option[i].url!);
+        else if(option[i].id) btn.setCustomId(option[i].id!);
         else continue;
         row.addComponents(btn);
     }

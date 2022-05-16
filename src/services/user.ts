@@ -7,7 +7,7 @@ import { IWriteUser } from "../types/user";
 export class UserService {
     readonly UserRepository = getRepository(UserEntity);
     
-    async get(id: string): Promise<UserEntity | undefined> {
+    async get(id: string): Promise<UserEntity | null> {
         const user = this.UserRepository.findOneBy({id:id});
         return user;
     }
@@ -41,7 +41,7 @@ export class UserService {
             id: user.id,
             name: user.username,
             tag: user.tag.split('#')[1],
-            avatar: user.avatarURL()
+            avatar: user.avatarURL() ? user.avatarURL()! : undefined
         });
     }
 
@@ -50,7 +50,7 @@ export class UserService {
             id: user.id,
             name: user.username,
             tag: user.tag.split('#')[1],
-            avatar: user.avatarURL()
+            avatar: user.avatarURL() ? user.avatarURL()! : undefined
         });
     }
 }

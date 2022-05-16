@@ -7,7 +7,7 @@ import { IWriteAttachment } from "../types/attachment";
 export class AttachmentService {
     readonly AttachmentRepository = getRepository(AttachmentEntity);
 
-    async get(id: string): Promise<AttachmentEntity | undefined> {
+    async get(id: string): Promise<AttachmentEntity | null> {
         const attachment = await this.AttachmentRepository.findOneBy({id:id});
         return attachment;
     }
@@ -40,18 +40,18 @@ export class AttachmentService {
         const channel = message.channel as TextChannel;
         return this.write({
             id: attachment.id,
-            guild_name: message.guild.name,
+            guild_name: message.guild!.name,
             channel_name: channel.name,
-            guild_id: message.guildId,
+            guild_id: message.guildId!,
             channel_id: message.channelId,
             message_id: message.id,
-            name: attachment.name,
-            description: attachment.description,
-            type: attachment.contentType,
+            name: attachment.name!,
+            description: attachment.description!,
+            type: attachment.contentType!,
             size: attachment.size,
             url: attachment.url,
-            height: attachment.height,
-            width: attachment.width,
+            height: attachment.height!,
+            width: attachment.width!,
             local_saved: false
         });
     }

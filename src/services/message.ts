@@ -11,7 +11,7 @@ export class MessageService {
     readonly AttachmentService = getCustomRepository(AttachmentService);
     readonly MessageContentService = getCustomRepository(MessageContentService);
 
-    async get(id: string): Promise<MessageEntity | undefined> {
+    async get(id: string): Promise<MessageEntity | null> {
         const log = await this.MessageRepository.findOneBy({id:id});
         return log;
     }
@@ -40,12 +40,12 @@ export class MessageService {
         });
     }
 
-    async getByMessage(message: Message): Promise<MessageEntity | undefined> {
+    async getByMessage(message: Message): Promise<MessageEntity | null> {
         const log = await this.MessageRepository.findOneBy({id:message.id});
         return log;
     }
 
-    async getByMessageID(id: string): Promise<MessageEntity | undefined> {
+    async getByMessageID(id: string): Promise<MessageEntity | null> {
         const log = await this.MessageRepository.findOneBy({id:id});
         return log;
     }
@@ -61,14 +61,14 @@ export class MessageService {
         const channel = message.channel as TextChannel;
         return await this.write({
             id: message.id,
-            guild_name: message.guild.name,
+            guild_name: message.guild!.name,
             channel_name: channel.name,
-            guild_id: message.guildId,
+            guild_id: message.guildId!,
             channel_id: message.channelId,
             user_id: message.author.id,
-            last_content_id: messageContent.id,
-            last_content_date: message.editedTimestamp | message.createdTimestamp,
-            last_content: messageContent.content ? messageContent.content : null,
+            last_content_id: messageContent!.id,
+            last_content_date: message.editedTimestamp || message.createdTimestamp,
+            last_content: messageContent?.content,
             created: message.createdTimestamp,
             attachment: isAttachment
         });

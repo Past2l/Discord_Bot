@@ -23,10 +23,10 @@ export class AttachmentEntity {
     @Column({ nullable: false })
     name: string;
 
-    @Column({ default: null })
+    @Column({ default: undefined })
     description: string;
 
-    @Column({ default: null })
+    @Column({ default: undefined })
     type: string;
 
     @Column({ nullable: false })
@@ -35,10 +35,10 @@ export class AttachmentEntity {
     @Column({ nullable: false })
     url: string;
 
-    @Column({ default: null })
+    @Column({ default: undefined })
     height: number;
 
-    @Column({ default: null })
+    @Column({ default: undefined })
     width: number;
 
     @Column({ nullable: false })

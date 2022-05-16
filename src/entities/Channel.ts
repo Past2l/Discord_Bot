@@ -14,12 +14,12 @@ export class ChannelEntity {
     @Column({ nullable: false })
     nsfw: boolean;
 
-    @Column({ default: null })
+    @Column({ default: undefined })
     last_content_id: number;
 
-    @Column({ default: null, type: 'bigint' })
+    @Column({ default: undefined, type: 'bigint' })
     last_content_date: number;
     
-    @Column({ default: null })
+    @Column({ default: undefined })
     last_content: string;
 }

@@ -9,7 +9,7 @@ export class ChannelService {
     readonly ChannelRepository = getRepository(ChannelEntity);
     readonly MessageContentService = getCustomRepository(MessageContentService);
 
-    async get(id: string): Promise<ChannelEntity | undefined> {
+    async get(id: string): Promise<ChannelEntity | null> {
         const channel = this.ChannelRepository.findOneBy({id:id});
         return channel;
     }
@@ -55,8 +55,8 @@ export class ChannelService {
             name: channel.name,
             nsfw: channel.nsfw,
             last_content_id: content_id,
-            last_content_date: messageContent.date,
-            last_content: messageContent.content
+            last_content_date: messageContent!.date,
+            last_content: messageContent!.content
         });
     }
 }

@@ -7,7 +7,7 @@ import { IWriteMessageContent } from "../types/messageContent";
 export class MessageContentService {
     readonly MessageContentRepository = getRepository(MessageContentEntity);
 
-    async get(id: number): Promise<MessageContentEntity | undefined> {
+    async get(id: number): Promise<MessageContentEntity | null> {
         const log = await this.MessageContentRepository.findOneBy({id:id});
         return log;
     }
@@ -40,12 +40,12 @@ export class MessageContentService {
         const channel = message.channel as TextChannel;
         return this.write({
             message_id: message.id,
-            guild_name: message.guild.name,
+            guild_name: message.guild!.name,
             channel_name: channel.name,
-            guild_id: message.guildId,
+            guild_id: message.guildId!,
             channel_id: message.channelId,
-            content: message.content.length>0 ? message.content : null,
-            date: message.editedTimestamp | message.createdTimestamp
+            content: message?.content,
+            date: message.editedTimestamp || message.createdTimestamp
         });
     }
 }

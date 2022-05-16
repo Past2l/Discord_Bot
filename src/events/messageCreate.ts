@@ -16,13 +16,13 @@ export default new Event("messageCreate", async message => {
         const guildService = getCustomRepository(GuildService);
         if(!message.author.bot && !message.author.system) {
             if(message.channel instanceof TextChannel) {
-                if(await userService.get(message.author.id) == null) await userService.writeByUser(message.author);
-                if(await guildService.get(message.guildId) == null) await guildService.writeByGuild(message.guild);
-                if(await channelService.get(message.channelId) == null) await channelService.writeByChannel(message.channel);
+                if(!await userService.get(message.author.id)) await userService.writeByUser(message.author);
+                if(!await guildService.get(message.guildId!)) await guildService.writeByGuild(message.guild!);
+                if(!await channelService.get(message.channelId)) await channelService.writeByChannel(message.channel);
                 let messageContent = await messageContentService.writeByMessage(message);
                 await channelService.updateByChannel(message.channel,messageContent.id);
                 await messageService.writeByMessage(message,messageContent.id);
-                await guildService.updateByGuild(message.guild);
+                await guildService.updateByGuild(message.guild!);
             }
         }
     }
