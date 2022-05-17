@@ -15,7 +15,6 @@ export default new Event('messageDelete', async message =>{
         message = message as Message;
         if(!message.author.bot && !message.author.system) {
             if(message.channel instanceof TextChannel && message) {
-                console.log(message.createdTimestamp,message.editedTimestamp);
                 if(!await userService.get(message.author.id)) await userService.writeByUser(message.author);
                 if(!await guildService.get(message.guildId!)) await guildService.writeByGuild(message.guild!);
                 if(!await channelService.get(message.channelId)) await channelService.writeByChannel(message.channel);
