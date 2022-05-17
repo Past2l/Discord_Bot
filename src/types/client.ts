@@ -51,8 +51,8 @@ export class ExtendedClient extends Client {
 
     async registerModules() {
         const slashCommands: ApplicationCommandDataResolvable[] = [];
-        const commandFiles = await globPromise(`${__dirname}/../commands/*{.ts,.js}`);
-        const commandFilesInFolder = await globPromise(`${__dirname}/../commands/*/*{.ts,.js}`);
+        const commandFiles = await globPromise(`${__dirname.replace(/\\/g,'/')}/../commands/*{.ts,.js}`);
+        const commandFilesInFolder = await globPromise(`${__dirname.replace(/\\/g,'/')}/../commands/*/*{.ts,.js}`);
         for (const filePath of [...commandFiles,...commandFilesInFolder]) {
             const command: CommandType = await this.importFile(filePath);
             if (!command.name) return;
@@ -63,7 +63,7 @@ export class ExtendedClient extends Client {
         this.on('ready', () => {
             this.registerCommands({commands: slashCommands});
         });
-        const eventFiles = await globPromise(`${__dirname}/../events/*{.ts,.js}`);
+        const eventFiles = await globPromise(`${__dirname.replace(/\\/g,'/')}/../events/*{.ts,.js}`);
         for (const filePath of eventFiles) {
             const event: Event<keyof ClientEvents> = await this.importFile(filePath);
             this.on(event.event, event.run);
