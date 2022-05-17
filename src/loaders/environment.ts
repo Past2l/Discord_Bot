@@ -7,7 +7,6 @@ export const ENVIRONMENT_NAMES = [
     'BOT_ID',
     'BOT_TOKEN',
     'BOT_OWNER',
-    'BOT_PREFIX',
     'BOT_ACTIVITY',
     'BOT_COLOR',
     'BOT_LOG'
