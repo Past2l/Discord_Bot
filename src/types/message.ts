@@ -1,14 +1,31 @@
-export interface IWriteMessage {
+import { Message } from "discord.js";
+import { ChannelEntity } from "../entities/Channel";
+import { GuildEntity } from "../entities/Guild";
+import { MessageEntity } from "../entities/Message";
+import { UserEntity } from "../entities/User";
+
+export interface Body {
     id: string;
-    guild_id: string;
-    channel_id: string;
-    guild_name: string;
-    channel_name: string;
-    user_id: string;
-    last_content_id?: number;
-    last_content_date: number;
-    last_content?: string;
+    guild: GuildEntity;
+    channel: ChannelEntity;
+    user: UserEntity;
+    edited?: number;
     deleted?: number;
     created: number;
     attachment: boolean;
+}
+
+export interface Write {
+    guild: GuildEntity;
+    channel: ChannelEntity;
+    user: UserEntity;
+    message: Message;
+}
+
+export interface Update {
+    guild: GuildEntity;
+    channel: ChannelEntity;
+    user: UserEntity;
+    message: MessageEntity;
+    content: Message;
 }

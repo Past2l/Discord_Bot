@@ -1,8 +1,7 @@
 import { Guild } from "discord.js";
-import G from "glob";
 import { DeleteResult, EntityRepository, getRepository } from "typeorm";
 import { GuildEntity } from "../entities/Guild";
-import { IWriteGuild } from "../types/guild";
+import * as GuildType from "../types/guild";
 
 @EntityRepository(GuildEntity)
 export class GuildService {
@@ -13,14 +12,14 @@ export class GuildService {
         return guild;
     }
 
-    async write(body: IWriteGuild): Promise<GuildEntity> {
+    async write(body: GuildType.Body): Promise<GuildEntity> {
         const newGuild = this.GuildRepository.create({
             ...body,
         });
         return await this.GuildRepository.save(newGuild);
     }
 
-    async update(id: string, body: IWriteGuild) {
+    async update(id: string, body: Partial<GuildType.Body>) {
         return await this.GuildRepository.update(
             {
                 id: id,

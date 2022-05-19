@@ -1,7 +1,6 @@
-import { Message, MessageAttachment, TextChannel } from "discord.js";
 import { DeleteResult, EntityRepository, getRepository } from "typeorm";
 import { AttachmentEntity } from "../entities/Attachment";
-import { IWriteAttachment } from "../types/attachment";
+import * as AttachmentType from "../types/attachment";
 
 @EntityRepository(AttachmentEntity)
 export class AttachmentService {
@@ -12,14 +11,14 @@ export class AttachmentService {
         return attachment;
     }
 
-    async write(body: IWriteAttachment): Promise<AttachmentEntity> {
+    async write(body: AttachmentType.Body): Promise<AttachmentEntity> {
         const newAttachment = this.AttachmentRepository.create({
             ...body,
         });
         return await this.AttachmentRepository.save(newAttachment);
     }
 
-    async update(id: string, body: IWriteAttachment) {
+    async update(id: string, body: Partial<AttachmentType.Body>) {
         return await this.AttachmentRepository.update(
             {
                 id: id,
@@ -36,22 +35,20 @@ export class AttachmentService {
         });
     }
 
-    async writeByAttachment(attachment: MessageAttachment,message: Message): Promise<AttachmentEntity> {
-        const channel = message.channel as TextChannel;
+    async writeByAttachment(data: AttachmentType.Write): Promise<AttachmentEntity> {
         return this.write({
-            id: attachment.id,
-            guild_name: message.guild!.name,
-            channel_name: channel.name,
-            guild_id: message.guildId!,
-            channel_id: message.channelId,
-            message_id: message.id,
-            name: attachment.name!,
-            description: attachment.description || undefined,
-            type: attachment.contentType || undefined,
-            size: attachment.size,
-            url: attachment.url,
-            height: attachment.height || undefined,
-            width: attachment.width || undefined,
+            id: data.attachment.id,
+            guild: data.guild,
+            channel: data.channel,
+            user: data.user,
+            message: data.message,
+            name: data.attachment.name!,
+            description: data.attachment.description || undefined,
+            type: data.attachment.contentType || undefined,
+            size: data.attachment.size,
+            url: data.attachment.url,
+            height: data.attachment.height || undefined,
+            width: data.attachment.width || undefined,
             local_saved: false
         });
     }

@@ -1,27 +1,24 @@
-import { Channel, Message, TextChannel } from "discord.js";
-import { DeleteResult, EntityRepository, getCustomRepository, getRepository } from "typeorm";
+import { DeleteResult, EntityRepository, getRepository } from "typeorm";
 import { ChannelEntity } from "../entities/Channel";
-import { IWriteChannel } from "../types/channel";
-import { MessageContentService } from "./messageContent";
+import * as ChannelType from "../types/channel";
 
 @EntityRepository(ChannelEntity)
 export class ChannelService {
     readonly ChannelRepository = getRepository(ChannelEntity);
-    readonly MessageContentService = getCustomRepository(MessageContentService);
 
     async get(id: string): Promise<ChannelEntity | null> {
         const channel = this.ChannelRepository.findOneBy({id:id});
         return channel;
     }
 
-    async write(body: IWriteChannel): Promise<ChannelEntity> {
+    async write(body: ChannelType.Body): Promise<ChannelEntity> {
         const newChannel = this.ChannelRepository.create({
             ...body,
         });
         return await this.ChannelRepository.save(newChannel);
     }
 
-    async update(id: string, body: IWriteChannel) {
+    async update(id: string, body: Partial<ChannelType.Body>) {
         return await this.ChannelRepository.update(
             {
                 id: id,
@@ -38,25 +35,21 @@ export class ChannelService {
         });
     }
 
-    async writeByChannel(channel: TextChannel): Promise<ChannelEntity> {
+    async writeByChannel({ guild, channel }: ChannelType.Write): Promise<ChannelEntity> {
         return this.write({
             id: channel.id,
-            guild_id: channel.guildId,
+            guild: guild,
             name: channel.name,
             nsfw: channel.nsfw
         });
     }
 
-    async updateByChannel(channel: TextChannel, content_id: number) {
-        const messageContent = await this.MessageContentService.get(content_id);
+    async updateByChannel({ guild, channel }: ChannelType.Write) {
         return await this.update(channel.id,{
             id: channel.id,
-            guild_id: channel.guildId,
+            guild: guild,
             name: channel.name,
-            nsfw: channel.nsfw,
-            last_content_id: content_id,
-            last_content_date: messageContent?.date,
-            last_content: messageContent?.content
+            nsfw: channel.nsfw
         });
     }
 }

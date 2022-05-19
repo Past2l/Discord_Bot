@@ -1,25 +1,18 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { GuildEntity } from "./Guild";
 
 @Entity('Channel')
 export class ChannelEntity {
     @PrimaryColumn()
     id: string;
 
-    @Column({ nullable: false })
-    guild_id: string;
+    @ManyToOne(()=>GuildEntity)
+    @JoinColumn()
+    guild: GuildEntity;
 
     @Column({ nullable: false })
     name: string;
 
     @Column({ nullable: false })
     nsfw: boolean;
-
-    @Column({ default: null })
-    last_content_id: number;
-
-    @Column({ default: null, type: 'bigint' })
-    last_content_date: number;
-    
-    @Column({ default: null })
-    last_content: string;
 }

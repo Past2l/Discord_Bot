@@ -1,28 +1,33 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ChannelEntity } from "./Channel";
+import { GuildEntity } from "./Guild";
+import { MessageEntity } from "./Message";
+import { UserEntity } from "./User";
 
 @Entity('MessageContent')
 export class MessageContentEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: false })
-    message_id: string;
+    @ManyToOne(()=>GuildEntity)
+    @JoinColumn()
+    guild: GuildEntity;
 
-    @Column({ nullable: false })
-    guild_id: string;
+    @ManyToOne(()=>ChannelEntity)
+    @JoinColumn()
+    channel: ChannelEntity;
 
-    @Column({ nullable: false })
-    channel_id: string;
+    @ManyToOne(()=>UserEntity)
+    @JoinColumn()
+    user: UserEntity;
 
-    @Column({ nullable: false })
-    guild_name: string;
+    @ManyToOne(()=>MessageEntity)
+    @JoinColumn()
+    message: MessageEntity;
 
-    @Column({ nullable: false })
-    channel_name: string;
+    @Column({ nullable: false, type:'bigint' })
+    created: number;
 
     @Column({ default: null, length: 4000 })
     content: string;
-
-    @Column({ nullable: false, type:'bigint' })
-    date: number;
 }

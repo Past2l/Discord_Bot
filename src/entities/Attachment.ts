@@ -1,24 +1,29 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { ChannelEntity } from "./Channel";
+import { GuildEntity } from "./Guild";
+import { MessageEntity } from "./Message";
+import { UserEntity } from "./User";
 
 @Entity('Attachment')
 export class AttachmentEntity {
     @PrimaryColumn({ nullable: false })
     id: string;
 
-    @Column({ nullable: false })
-    guild_id: string;
+    @ManyToOne(()=>GuildEntity)
+    @JoinColumn()
+    guild: GuildEntity;
 
-    @Column({ nullable: false })
-    channel_id: string;
+    @ManyToOne(()=>ChannelEntity)
+    @JoinColumn()
+    channel: ChannelEntity;
 
-    @Column({ nullable: false })
-    guild_name: string;
+    @ManyToOne(()=>UserEntity)
+    @JoinColumn()
+    user: UserEntity;
 
-    @Column({ nullable: false })
-    channel_name: string;
-
-    @Column({ nullable: false })
-    message_id: string;
+    @ManyToOne(()=>MessageEntity)
+    @JoinColumn()
+    message: MessageEntity;
 
     @Column({ nullable: false })
     name: string;

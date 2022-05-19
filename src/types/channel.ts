@@ -1,9 +1,14 @@
-export interface IWriteChannel {
+import { TextChannel } from "discord.js";
+import { GuildEntity } from "../entities/Guild";
+
+export interface Body {
     id: string;
-    guild_id: string;
+    guild: GuildEntity;
     name: string;
     nsfw: boolean;
-    last_content_id?: number;
-    last_content_date?: number;
-    last_content?: string;
+}
+
+export interface Write {
+    guild: GuildEntity;
+    channel: TextChannel;
 }

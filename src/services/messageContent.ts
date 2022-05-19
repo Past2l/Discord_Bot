@@ -1,7 +1,7 @@
-import { Message, TextChannel } from "discord.js";
+import { Message } from "discord.js";
 import { DeleteResult, EntityRepository, getRepository } from "typeorm";
 import { MessageContentEntity } from "../entities/MessageContent";
-import { IWriteMessageContent } from "../types/messageContent";
+import * as MessageContentType from "../types/messageContent";
 
 @EntityRepository(MessageContentEntity)
 export class MessageContentService {
@@ -12,22 +12,11 @@ export class MessageContentService {
         return log;
     }
 
-    async write(body: IWriteMessageContent): Promise<MessageContentEntity> {
+    async write(body: MessageContentType.Body): Promise<MessageContentEntity> {
         const newMessageContent = this.MessageContentRepository.create({
             ...body,
         });
         return await this.MessageContentRepository.save(newMessageContent);
-    }
-
-    async update(id: number, body: IWriteMessageContent) {
-        return await this.MessageContentRepository.update(
-            {
-                id: id,
-            },
-            {
-                ...body,
-            }
-        );
     }
 
     async delete(id: number): Promise<DeleteResult> {
@@ -36,16 +25,14 @@ export class MessageContentService {
         });
     }
 
-    async writeByMessage(message: Message): Promise<MessageContentEntity> {
-        const channel = message.channel as TextChannel;
+    async writeByMessage({ guild, channel, user, message, content }: MessageContentType.Write): Promise<MessageContentEntity> {
         return this.write({
-            message_id: message.id,
-            guild_name: message.guild!.name,
-            channel_name: channel.name,
-            guild_id: message.guildId!,
-            channel_id: message.channelId,
-            content: message?.content,
-            date: message.editedTimestamp || message.createdTimestamp
+            guild: guild,
+            channel: channel,
+            user: user,
+            message: message,
+            created: content.editedTimestamp || content.createdTimestamp,
+            content: content.content.length <= 0 ? content.content : undefined
         });
     }
 }
