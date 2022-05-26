@@ -78,7 +78,7 @@ export class MessageService {
             user: user,
             message: res,
             created: message.editedTimestamp || message.createdTimestamp,
-            content: message.content.length >= 0 ? message.content : undefined,
+            content: message.content.length > 0 ? message.content : undefined,
         });
         if (isAttachment)
             message.attachments.forEach(
@@ -107,7 +107,7 @@ export class MessageService {
                 message: message,
                 created: content.editedTimestamp || content.createdTimestamp,
                 content:
-                    content.content.length >= 0 ? content.content : undefined,
+                    content.content.length > 0 ? content.content : undefined,
             });
         return await this.MessageRepository.update(
             {
