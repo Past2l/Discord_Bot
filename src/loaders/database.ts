@@ -26,8 +26,8 @@ export default async () => {
         ],
         migrations: [],
         subscribers: [],
-        charset : 'utf8mb4'
+        charset: 'utf8mb4',
     })
-    .then(_=>console.log('Database Connected'))
-    .catch(error=>console.error(error));
+        .then((_) => console.log('Database Connected'))
+        .catch((error) => console.error(error));
 };

@@ -1,9 +1,14 @@
-import { Message } from "discord.js";
-import { DeleteResult, EntityRepository, getCustomRepository, getRepository } from "typeorm";
-import { MessageEntity } from "../entities/Message";
-import * as MessageType from "../types/message";
-import { AttachmentService } from "./attachment";
-import { MessageContentService } from "./messageContent";
+import { Message } from 'discord.js';
+import {
+    DeleteResult,
+    EntityRepository,
+    getCustomRepository,
+    getRepository,
+} from 'typeorm';
+import { MessageEntity } from '../entities/Message';
+import * as MessageType from '../types/message';
+import { AttachmentService } from './attachment';
+import { MessageContentService } from './messageContent';
 
 @EntityRepository(MessageEntity)
 export class MessageService {
@@ -12,7 +17,7 @@ export class MessageService {
     readonly AttachmentService = getCustomRepository(AttachmentService);
 
     async get(id: string): Promise<MessageEntity | null> {
-        const log = await this.MessageRepository.findOneBy({id:id});
+        const log = await this.MessageRepository.findOneBy({ id: id });
         return log;
     }
 
@@ -41,16 +46,21 @@ export class MessageService {
     }
 
     async getByMessage(message: Message): Promise<MessageEntity | null> {
-        const log = await this.MessageRepository.findOneBy({id:message.id});
+        const log = await this.MessageRepository.findOneBy({ id: message.id });
         return log;
     }
 
     async getByMessageID(id: string): Promise<MessageEntity | null> {
-        const log = await this.MessageRepository.findOneBy({id:id});
+        const log = await this.MessageRepository.findOneBy({ id: id });
         return log;
     }
 
-    async writeByMessage({ guild, channel, user, message }: MessageType.Write): Promise<MessageEntity> {
+    async writeByMessage({
+        guild,
+        channel,
+        user,
+        message,
+    }: MessageType.Write): Promise<MessageEntity> {
         const attachment = message.attachments.first();
         let isAttachment: boolean = !!attachment;
         const res = await this.write({
@@ -60,7 +70,7 @@ export class MessageService {
             user: user,
             created: message.createdTimestamp,
             edited: message.editedTimestamp || undefined,
-            attachment: isAttachment
+            attachment: isAttachment,
         });
         this.MessageContentService.write({
             guild: guild,
@@ -68,28 +78,37 @@ export class MessageService {
             user: user,
             message: res,
             created: message.editedTimestamp || message.createdTimestamp,
-            content: message.content.length >= 0 ? message.content : undefined
+            content: message.content.length >= 0 ? message.content : undefined,
         });
-        if(isAttachment) message.attachments.forEach(async v => await this.AttachmentService.writeByAttachment({
-            guild: guild,
-            channel: channel,
-            user: user,
-            message: res,
-            attachment: v,
-            content: message
-        }));
+        if (isAttachment)
+            message.attachments.forEach(
+                async (v) =>
+                    await this.AttachmentService.writeByAttachment({
+                        guild: guild,
+                        channel: channel,
+                        user: user,
+                        message: res,
+                        attachment: v,
+                        content: message,
+                    })
+            );
         return res;
     }
 
-    async updateByMessage({ guild, channel, user, message, content }: MessageType.Update, body: Partial<MessageType.Body>) {
-        if(!body.deleted) this.MessageContentService.write({
-            guild: guild,
-            channel: channel,
-            user: user,
-            message: message,
-            created: content.editedTimestamp || content.createdTimestamp,
-            content: content.content.length >= 0 ? content.content : undefined
-        });
+    async updateByMessage(
+        { guild, channel, user, message, content }: MessageType.Update,
+        body: Partial<MessageType.Body>
+    ) {
+        if (!body.deleted)
+            this.MessageContentService.write({
+                guild: guild,
+                channel: channel,
+                user: user,
+                message: message,
+                created: content.editedTimestamp || content.createdTimestamp,
+                content:
+                    content.content.length >= 0 ? content.content : undefined,
+            });
         return await this.MessageRepository.update(
             {
                 id: message.id,

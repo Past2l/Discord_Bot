@@ -1,14 +1,14 @@
-import { Message } from "discord.js";
-import { DeleteResult, EntityRepository, getRepository } from "typeorm";
-import { MessageContentEntity } from "../entities/MessageContent";
-import * as MessageContentType from "../types/messageContent";
+import { Message } from 'discord.js';
+import { DeleteResult, EntityRepository, getRepository } from 'typeorm';
+import { MessageContentEntity } from '../entities/MessageContent';
+import * as MessageContentType from '../types/messageContent';
 
 @EntityRepository(MessageContentEntity)
 export class MessageContentService {
     readonly MessageContentRepository = getRepository(MessageContentEntity);
 
     async get(id: number): Promise<MessageContentEntity | null> {
-        const log = await this.MessageContentRepository.findOneBy({id:id});
+        const log = await this.MessageContentRepository.findOneBy({ id: id });
         return log;
     }
 
@@ -25,14 +25,20 @@ export class MessageContentService {
         });
     }
 
-    async writeByMessage({ guild, channel, user, message, content }: MessageContentType.Write): Promise<MessageContentEntity> {
+    async writeByMessage({
+        guild,
+        channel,
+        user,
+        message,
+        content,
+    }: MessageContentType.Write): Promise<MessageContentEntity> {
         return this.write({
             guild: guild,
             channel: channel,
             user: user,
             message: message,
             created: content.editedTimestamp || content.createdTimestamp,
-            content: content.content.length <= 0 ? content.content : undefined
+            content: content.content.length <= 0 ? content.content : undefined,
         });
     }
 }

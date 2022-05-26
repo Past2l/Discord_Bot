@@ -1,5 +1,5 @@
-import { TextChannel } from "discord.js";
-import { GuildEntity } from "../entities/Guild";
+import { TextChannel } from 'discord.js';
+import { GuildEntity } from '../entities/Guild';
 
 export interface Body {
     id: string;

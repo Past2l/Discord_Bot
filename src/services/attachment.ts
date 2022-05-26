@@ -1,13 +1,15 @@
-import { DeleteResult, EntityRepository, getRepository } from "typeorm";
-import { AttachmentEntity } from "../entities/Attachment";
-import * as AttachmentType from "../types/attachment";
+import { DeleteResult, EntityRepository, getRepository } from 'typeorm';
+import { AttachmentEntity } from '../entities/Attachment';
+import * as AttachmentType from '../types/attachment';
 
 @EntityRepository(AttachmentEntity)
 export class AttachmentService {
     readonly AttachmentRepository = getRepository(AttachmentEntity);
 
     async get(id: string): Promise<AttachmentEntity | null> {
-        const attachment = await this.AttachmentRepository.findOneBy({id:id});
+        const attachment = await this.AttachmentRepository.findOneBy({
+            id: id,
+        });
         return attachment;
     }
 
@@ -35,7 +37,9 @@ export class AttachmentService {
         });
     }
 
-    async writeByAttachment(data: AttachmentType.Write): Promise<AttachmentEntity> {
+    async writeByAttachment(
+        data: AttachmentType.Write
+    ): Promise<AttachmentEntity> {
         return this.write({
             id: data.attachment.id,
             guild: data.guild,
@@ -49,7 +53,7 @@ export class AttachmentService {
             url: data.attachment.url,
             height: data.attachment.height || undefined,
             width: data.attachment.width || undefined,
-            local_saved: false
+            local_saved: false,
         });
     }
 }

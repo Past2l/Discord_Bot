@@ -3,12 +3,12 @@ import {
     Client,
     ClientEvents,
     Collection,
-    Intents
-} from "discord.js";
-import { CommandType } from "./command";
-import glob from "glob";
-import { promisify } from "util";
-import { Event } from "./event";
+    Intents,
+} from 'discord.js';
+import { CommandType } from './command';
+import glob from 'glob';
+import { promisify } from 'util';
+import { Event } from './event';
 
 const globPromise = promisify(glob);
 
@@ -25,7 +25,7 @@ export class ExtendedClient extends Client {
             intents: [
                 Intents.FLAGS.GUILDS,
                 Intents.FLAGS.GUILD_MESSAGES,
-                Intents.FLAGS.GUILD_VOICE_STATES
+                Intents.FLAGS.GUILD_VOICE_STATES,
             ],
         });
     }
@@ -40,7 +40,7 @@ export class ExtendedClient extends Client {
     }
 
     async registerCommands({ commands, guildId }: RegisterCommandsOptions) {
-        if(guildId) {
+        if (guildId) {
             await this.guilds.cache.get(guildId)?.commands.set(commands);
             console.log(`Registering Commands to \x1b[32m${guildId}\x1b[0m`);
         } else {
@@ -51,21 +51,36 @@ export class ExtendedClient extends Client {
 
     async registerModules() {
         const slashCommands: ApplicationCommandDataResolvable[] = [];
-        const commandFiles = await globPromise(`${__dirname.replace(/\\/g,'/')}/../commands/*{.ts,.js}`);
-        const commandFilesInFolder = await globPromise(`${__dirname.replace(/\\/g,'/')}/../commands/*/*{.ts,.js}`);
-        for (const filePath of [...commandFiles,...commandFilesInFolder]) {
+        const commandFiles = await globPromise(
+            `${__dirname.replace(/\\/g, '/')}/../commands/*{.ts,.js}`
+        );
+        const commandFilesInFolder = await globPromise(
+            `${__dirname.replace(/\\/g, '/')}/../commands/*/*{.ts,.js}`
+        );
+        for (const filePath of [...commandFiles, ...commandFilesInFolder]) {
             const command: CommandType = await this.importFile(filePath);
             if (!command.name) return;
             this.commands.set(command.name, command);
             slashCommands.push(command);
-            console.log(`Added \x1b[33m${command.name}\x1b[0m Command (Location : \x1b[32m${filePath.replace(/\/types\/\.\./g,'')}\x1b[0m)`);
+            console.log(
+                `Added \x1b[33m${
+                    command.name
+                }\x1b[0m Command (Location : \x1b[32m${filePath.replace(
+                    /\/types\/\.\./g,
+                    ''
+                )}\x1b[0m)`
+            );
         }
         this.on('ready', () => {
-            this.registerCommands({commands: slashCommands});
+            this.registerCommands({ commands: slashCommands });
         });
-        const eventFiles = await globPromise(`${__dirname.replace(/\\/g,'/')}/../events/*{.ts,.js}`);
+        const eventFiles = await globPromise(
+            `${__dirname.replace(/\\/g, '/')}/../events/*{.ts,.js}`
+        );
         for (const filePath of eventFiles) {
-            const event: Event<keyof ClientEvents> = await this.importFile(filePath);
+            const event: Event<keyof ClientEvents> = await this.importFile(
+                filePath
+            );
             this.on(event.event, event.run);
         }
     }

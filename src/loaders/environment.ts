@@ -9,7 +9,7 @@ export const ENVIRONMENT_NAMES = [
     'BOT_OWNER',
     'BOT_ACTIVITY',
     'BOT_COLOR',
-    'BOT_LOG'
+    'BOT_LOG',
 ];
 
 export const DB_ENVIRONMENT_NAMES = [
@@ -21,6 +21,9 @@ export const DB_ENVIRONMENT_NAMES = [
 ];
 
 export default async () => {
-    for (const env_name of ENVIRONMENT_NAMES) if (!process.env[env_name]) throw new Error(format(env_name));
-    if (process.env.BOT_LOG==='true') for (const env_name of DB_ENVIRONMENT_NAMES) if (!process.env[env_name]) throw new Error(format(env_name));
+    for (const env_name of ENVIRONMENT_NAMES)
+        if (!process.env[env_name]) throw new Error(format(env_name));
+    if (process.env.BOT_LOG === 'true')
+        for (const env_name of DB_ENVIRONMENT_NAMES)
+            if (!process.env[env_name]) throw new Error(format(env_name));
 };

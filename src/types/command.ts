@@ -3,9 +3,9 @@ import {
     CommandInteraction,
     CommandInteractionOptionResolver,
     GuildMember,
-    PermissionResolvable
-} from "discord.js";
-import { ExtendedClient } from "./client";
+    PermissionResolvable,
+} from 'discord.js';
+import { ExtendedClient } from './client';
 
 interface RunOptions {
     client: ExtendedClient;

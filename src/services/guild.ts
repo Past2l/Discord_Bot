@@ -1,14 +1,14 @@
-import { Guild } from "discord.js";
-import { DeleteResult, EntityRepository, getRepository } from "typeorm";
-import { GuildEntity } from "../entities/Guild";
-import * as GuildType from "../types/guild";
+import { Guild } from 'discord.js';
+import { DeleteResult, EntityRepository, getRepository } from 'typeorm';
+import { GuildEntity } from '../entities/Guild';
+import * as GuildType from '../types/guild';
 
 @EntityRepository(GuildEntity)
 export class GuildService {
     readonly GuildRepository = getRepository(GuildEntity);
 
     async get(id: string): Promise<GuildEntity | null> {
-        const guild = this.GuildRepository.findOneBy({id:id});
+        const guild = this.GuildRepository.findOneBy({ id: id });
         return guild;
     }
 
@@ -42,17 +42,17 @@ export class GuildService {
             name: guild.name,
             owner_id: guild.ownerId,
             icon: guild.iconURL() || undefined,
-            member: guild.members.cache.filter(user => !user.user.bot).size
+            member: guild.members.cache.filter((user) => !user.user.bot).size,
         });
     }
 
     async updateByGuild(guild: Guild) {
-        return this.update(guild.id,{
+        return this.update(guild.id, {
             id: guild.id,
             name: guild.name,
             owner_id: guild.ownerId,
             icon: guild.iconURL() || undefined,
-            member: guild.members.cache.filter(user => !user.user.bot).size
+            member: guild.members.cache.filter((user) => !user.user.bot).size,
         });
     }
 }

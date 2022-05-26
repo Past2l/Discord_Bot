@@ -9,15 +9,15 @@ export class MessageEntity {
     @PrimaryColumn({ nullable: false })
     id: string;
 
-    @ManyToOne(()=>GuildEntity)
+    @ManyToOne(() => GuildEntity)
     @JoinColumn()
     guild: GuildEntity;
 
-    @ManyToOne(()=>ChannelEntity)
+    @ManyToOne(() => ChannelEntity)
     @JoinColumn()
     channel: ChannelEntity;
 
-    @ManyToOne(()=>UserEntity)
+    @ManyToOne(() => UserEntity)
     @JoinColumn()
     user: UserEntity;
 

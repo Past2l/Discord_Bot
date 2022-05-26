@@ -1,14 +1,14 @@
-import { User } from "discord.js";
-import { DeleteResult, EntityRepository, getRepository } from "typeorm";
-import { UserEntity } from "../entities/User";
-import { IWriteUser } from "../types/user";
+import { User } from 'discord.js';
+import { DeleteResult, EntityRepository, getRepository } from 'typeorm';
+import { UserEntity } from '../entities/User';
+import { IWriteUser } from '../types/user';
 
 @EntityRepository(UserEntity)
 export class UserService {
     readonly UserRepository = getRepository(UserEntity);
-    
+
     async get(id: string): Promise<UserEntity | null> {
-        const user = this.UserRepository.findOneBy({id:id});
+        const user = this.UserRepository.findOneBy({ id: id });
         return user;
     }
 
@@ -41,16 +41,16 @@ export class UserService {
             id: user.id,
             name: user.username,
             tag: user.tag.split('#')[1],
-            avatar: user.avatarURL() || undefined
+            avatar: user.avatarURL() || undefined,
         });
     }
 
     async updateByUser(user: User) {
-        return this.update(user.id,{
+        return this.update(user.id, {
             id: user.id,
             name: user.username,
             tag: user.tag.split('#')[1],
-            avatar: user.avatarURL() || undefined
+            avatar: user.avatarURL() || undefined,
         });
     }
 }

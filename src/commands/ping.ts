@@ -1,19 +1,19 @@
-import { Default } from "../modules/embed";
-import { Command } from "../types/command";
+import { EmbedDefault } from '../modules/embed';
+import { Command } from '../types/command';
 
 export default new Command({
-    name: "ping",
-    description: "replies with pong",
+    name: 'ping',
+    description: 'replies with pong',
     run: async ({ interaction }) => {
         await interaction.reply({
             embeds: [
-                Default({
+                EmbedDefault({
                     color: '#00ff00',
                     title: 'Ping!',
-                    desc: '```Pong!```'
-                })
+                    desc: '```Pong!```',
+                }),
             ],
-            ephemeral: true
+            ephemeral: true,
         });
-    }
+    },
 });

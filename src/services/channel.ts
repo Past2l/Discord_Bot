@@ -1,13 +1,13 @@
-import { DeleteResult, EntityRepository, getRepository } from "typeorm";
-import { ChannelEntity } from "../entities/Channel";
-import * as ChannelType from "../types/channel";
+import { DeleteResult, EntityRepository, getRepository } from 'typeorm';
+import { ChannelEntity } from '../entities/Channel';
+import * as ChannelType from '../types/channel';
 
 @EntityRepository(ChannelEntity)
 export class ChannelService {
     readonly ChannelRepository = getRepository(ChannelEntity);
 
     async get(id: string): Promise<ChannelEntity | null> {
-        const channel = this.ChannelRepository.findOneBy({id:id});
+        const channel = this.ChannelRepository.findOneBy({ id: id });
         return channel;
     }
 
@@ -35,21 +35,24 @@ export class ChannelService {
         });
     }
 
-    async writeByChannel({ guild, channel }: ChannelType.Write): Promise<ChannelEntity> {
+    async writeByChannel({
+        guild,
+        channel,
+    }: ChannelType.Write): Promise<ChannelEntity> {
         return this.write({
             id: channel.id,
             guild: guild,
             name: channel.name,
-            nsfw: channel.nsfw
+            nsfw: channel.nsfw,
         });
     }
 
     async updateByChannel({ guild, channel }: ChannelType.Write) {
-        return await this.update(channel.id,{
+        return await this.update(channel.id, {
             id: channel.id,
             guild: guild,
             name: channel.name,
-            nsfw: channel.nsfw
+            nsfw: channel.nsfw,
         });
     }
 }

@@ -1,12 +1,12 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { GuildEntity } from "./Guild";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { GuildEntity } from './Guild';
 
 @Entity('Channel')
 export class ChannelEntity {
     @PrimaryColumn()
     id: string;
 
-    @ManyToOne(()=>GuildEntity)
+    @ManyToOne(() => GuildEntity)
     @JoinColumn()
     guild: GuildEntity;
 

@@ -1,8 +1,8 @@
-import { Message } from "discord.js";
-import { ChannelEntity } from "../entities/Channel";
-import { GuildEntity } from "../entities/Guild";
-import { MessageEntity } from "../entities/Message";
-import { UserEntity } from "../entities/User";
+import { Message } from 'discord.js';
+import { ChannelEntity } from '../entities/Channel';
+import { GuildEntity } from '../entities/Guild';
+import { MessageEntity } from '../entities/Message';
+import { UserEntity } from '../entities/User';
 
 export interface Body {
     id: string;
